@@ -16,8 +16,8 @@
 
 package playground.mongo;
 
-import org.reactivestreams.Publisher;
 import playground.Person;
+import rx.Observable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,14 +40,14 @@ public class MongoPersonController {
 	}
 
 	@RequestMapping(path = "/mongo", method = RequestMethod.POST)
-	public Publisher<Void> create(@RequestBody Publisher<Person> personStream) {
-		return this.repository.insert(personStream);
+	public Observable<Void> create(@RequestBody Observable<Person> personStream) {
+		return this.repository.save(personStream);
 	}
 
 	@RequestMapping(path = "/mongo", method = RequestMethod.GET)
 	@ResponseBody
-	public Publisher<Person> list() {
-		return this.repository.list();
+	public Observable<Person> list() {
+		return this.repository.findAll();
 	}
 
 }

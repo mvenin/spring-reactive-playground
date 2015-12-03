@@ -16,18 +16,12 @@
 
 package playground.mongo;
 
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.reactivestreams.client.MongoCollection;
-import com.mongodb.reactivestreams.client.MongoDatabase;
-import org.bson.Document;
-import org.reactivestreams.Publisher;
 import playground.Person;
-import reactor.Publishers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.repository.ReactiveCrudRepositoryImpl;
+import org.springframework.data.repository.RxCrudRepositoryAdapter;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -36,38 +30,10 @@ import org.springframework.stereotype.Repository;
  * @author Sebastien Deleuze
  */
 @Repository
-public class MongoPersonRepository {
-
-	private final ObjectMapper mapper;
-	private final MongoCollection<Document> col;
+public class MongoPersonRepository extends RxCrudRepositoryAdapter {
 
 	@Autowired
-	public MongoPersonRepository(MongoDatabase db, ObjectMapper mapper) {
-		this.mapper = mapper;
-		this.col = db.getCollection("persons");
+	public MongoPersonRepository(ReactiveMongoTemplate template) {
+		super(new ReactiveCrudRepositoryImpl<>(template, Person.class));
 	}
-
-	public Publisher<Void> insert(Publisher<Person> personStream) {
-		return Publishers.flatMap(personStream, p -> {
-			try {
-				Document doc = Document.parse(mapper.writeValueAsString(p));
-				return Publishers.completable(col.insertOne(doc));
-			}
-			catch (JsonProcessingException ex) {
-				return Publishers.error(ex);
-			}
-		});
-	}
-
-	public Publisher<Person> list() {
-		return Publishers.map(this.col.find(), doc -> {
-			try {
-				return mapper.readValue(doc.toJson(), Person.class);
-			}
-			catch (IOException ex) {
-				throw new IllegalStateException(ex);
-			}
-		});
-	}
-
 }
