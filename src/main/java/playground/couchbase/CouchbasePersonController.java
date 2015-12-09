@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * @author Sebastien Deleuze
  */
-@Controller
+//@Controller
 public class CouchbasePersonController {
 
 	private final CouchbasePersonRepository repository;

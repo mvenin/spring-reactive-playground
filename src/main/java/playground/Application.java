@@ -19,6 +19,9 @@ package playground;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
+import reactor.core.subscription.ReactiveSession;
+import reactor.io.net.nexus.Nexus;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,6 +62,7 @@ public class Application {
 		server.setHandler(dispatcherHandler);
 		server.afterPropertiesSet();
 		server.start();
+		context.getBean(Nexus.class).monitor(server);
 
 		CompletableFuture<Void> stop = new CompletableFuture<>();
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {

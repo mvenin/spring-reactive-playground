@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Sebastien Deleuze
  */
-@Configuration
+//@Configuration
 public class PostgresConfiguration {
 
 	// You should create this table with the following query before using it:

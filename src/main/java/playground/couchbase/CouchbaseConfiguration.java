@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Sebastien Deleuze
  */
-@Configuration
+//@Configuration
 public class CouchbaseConfiguration {
 
 	// You should create an index with the following query before using it:

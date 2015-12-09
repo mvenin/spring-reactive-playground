@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
 /**
  * @author Sebastien Deleuze
  */
-@Repository
+//@Repository
 public class PostgresPersonRepository {
 
 	private final Db db;

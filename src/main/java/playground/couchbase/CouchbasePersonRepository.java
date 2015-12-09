@@ -35,7 +35,7 @@ import org.springframework.stereotype.Repository;
  *
  * @author Sebastien Deleuze
  */
-@Repository
+//@Repository
 public class CouchbasePersonRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(CouchbasePersonRepository.class);

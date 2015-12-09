@@ -34,6 +34,8 @@ dependencies {
 	compile "com.fasterxml.jackson.core:jackson-databind:2.6.1"
 
 	compile "io.projectreactor:reactor-net:2.1.0.BUILD-SNAPSHOT"
+	compile "io.projectreactor:reactor-stream:2.1.0.BUILD-SNAPSHOT"
+	compile "io.projectreactor:reactor-codec:2.1.0.BUILD-SNAPSHOT"
 	compile "io.netty:netty-codec-http:4.0.31.Final"
 	compile "io.netty:netty-transport-native-epoll:4.0.31.Final"
 

@@ -19,6 +19,8 @@ package playground.mongo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.reactivestreams.client.MongoClients;
 import com.mongodb.reactivestreams.client.MongoDatabase;
+import reactor.io.net.ReactiveNet;
+import reactor.io.net.nexus.Nexus;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +40,13 @@ public class MongoConfiguration {
 	@Bean
 	MongoDatabase mongoDatabase() {
 		return MongoClients.create().getDatabase("reactive-playground");
+	}
+
+	@Bean
+	Nexus nexus() throws InterruptedException {
+		Nexus nexus = ReactiveNet.nexus().withSystemStats();
+		nexus.startAndAwait();
+		return nexus;
 	}
 
 }

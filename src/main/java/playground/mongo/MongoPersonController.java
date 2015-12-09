@@ -18,6 +18,7 @@ package playground.mongo;
 
 import org.reactivestreams.Publisher;
 import playground.Person;
+import reactor.io.net.nexus.Nexus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,20 +34,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MongoPersonController {
 
 	private final MongoPersonRepository repository;
+	private final Nexus                 nexus;
 
 	@Autowired
-	public MongoPersonController(MongoPersonRepository repository) {
+	public MongoPersonController(MongoPersonRepository repository, Nexus nexus) {
 		this.repository = repository;
+		this.nexus = nexus;
 	}
 
 	@RequestMapping(path = "/mongo", method = RequestMethod.POST)
 	public Publisher<Void> create(@RequestBody Publisher<Person> personStream) {
-		return this.repository.insert(personStream);
+		return nexus.monitor(repository.insert(personStream));
 	}
 
 	@RequestMapping(path = "/mongo", method = RequestMethod.GET)
 	@ResponseBody
 	public Publisher<Person> list() {
+		return nexus.monitor(this.repository.list());
+	}
+
+	@RequestMapping(path = "/favicon.ico", method = RequestMethod.GET)
+	@ResponseBody
+	public Publisher<Person> favicon() {
 		return this.repository.list();
 	}
 
