@@ -18,6 +18,7 @@ package playground.mongo;
 
 import org.reactivestreams.Publisher;
 import playground.Person;
+import reactor.Publishers;
 import reactor.io.net.nexus.Nexus;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class MongoPersonController {
 	@RequestMapping(path = "/favicon.ico", method = RequestMethod.GET)
 	@ResponseBody
 	public Publisher<Person> favicon() {
-		return this.repository.list();
+		return Publishers.empty();
 	}
 
 }
